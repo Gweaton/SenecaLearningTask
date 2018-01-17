@@ -27,12 +27,20 @@ function aggregateStats(req, res) {
     }, (err, stats) => {
         if(err) res.send(err);
 
-        let totalTimeStudied = stats.reduce((acc, stat) => acc + stat.timeStudied, 0);
         res.json({
-          timeStudied: totalTimeStudied
+          timeStudied: getTotalForProperty('timeStudied', stats),
+          averageScore: getAverageScore(stats)
         });
-
     });
+}
+
+
+function getTotalForProperty(propertyName, stats) {
+  return stats.reduce((total, stat) => total + stat[propertyName], 0);
+}
+
+function getAverageScore(stats) {
+  return getTotalForProperty('total', stats) / stats.length;
 }
 
 module.exports = { createStat, aggregateStats };

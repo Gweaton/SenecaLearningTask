@@ -72,7 +72,7 @@ describe('Stats', () => {
       let statTwo = {
         userId: userId,
         courseId: courseId,
-        total: 1,
+        total: 3,
         timeStudied: 20
       };
 
@@ -86,13 +86,14 @@ describe('Stats', () => {
         done();
       });
 
-      it('should calculate the total timeStudied for the userId', () => {
+      it('should calculate the total timeStudied and average score for the userId', () => {
         return chai.request(server)
         .get('/courses/history')
         .set('User-Id', 'George')
         .then((res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('timeStudied', 30);
+          expect(res.body).to.have.property('averageScore', 2);
         }).catch((err) => {
           throw err;
         });
