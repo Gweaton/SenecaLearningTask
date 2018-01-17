@@ -1,0 +1,80 @@
+---
+  swagger: "2.0"
+  info: 
+    version: "0.0.0"
+    title: "Stats Service"
+    description: "Provides persistence of stats"
+  host: "localhost:3000"
+  basePath: "/"
+  schemes: 
+    - "http"
+  consumes: 
+    - "application/json"
+  produces: 
+    - "application/json"
+  paths:
+    "/courses/{courseId}":
+      post:
+        description: "Persists stat event"
+        parameters:
+          - in: header
+            description: Identifies the user
+            name: User-Id
+            schema:
+              type: string
+              format: uuid
+            required: true
+          - in: path
+            name: courseId
+            required: true
+            schema:
+              type: string
+              format: uuid
+            description: Identifies the course
+          - in: body
+            name: stat event
+            required: true
+            schema:
+              type: object
+              properties:
+                total:
+                  type: number
+                timeStudied:
+                  type: number
+                  description: Type in seconds
+            
+        responses:
+          '201':
+            description: Created
+
+      get:
+        description: "Fetches course lifetime statistics"
+        parameters:
+          - in: header
+            description: Identifies the user
+            name: User-Id
+            schema:
+              type: string
+              format: uuid
+            required: true
+          - in: path
+            name: courseId
+            required: true
+            schema:
+              type: string
+              format: uuid
+            description: Identifies the course
+            
+        responses:
+          '200':
+            description: Course lifetime stats
+            schema:
+              type: object
+              properties:
+                averageScore:
+                  type: number
+                  description: The users average score of modules across the course
+                timeStudied:
+                  type: number
+                  description: The total time spent studying a course in seconds
+
