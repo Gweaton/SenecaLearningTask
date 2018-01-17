@@ -29,7 +29,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
 
-app.route('/courses/:courseId').post(stat.createStat);
+app.route('/courses/:courseId')
+    .get(stat.aggregateStats)
+    .post(stat.createStat);
 
 app.listen(port);
 console.log("Listening on port " + port);

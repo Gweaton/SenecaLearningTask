@@ -20,8 +20,8 @@ describe('Stats', () => {
     let rawStat = {
       total: 1,
       timeStudied: 10
-    }
-    let courseId = 'History';
+    };
+    let courseId = 'history';
     let persistenceRoute = `/courses/${courseId}`
 
     it('it should allow a user to save a stat', () => {
@@ -32,7 +32,7 @@ describe('Stats', () => {
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body.stat).to.have.property('userId', 'George');
-        expect(res.body.stat).to.have.property('courseId', 'History');
+        expect(res.body.stat).to.have.property('courseId', 'history');
         expect(res.body.stat).to.have.property('total', 1);
         expect(res.body.stat).to.have.property('timeStudied', 10);
       })
@@ -59,6 +59,45 @@ describe('Stats', () => {
       });
     });
 
+    describe('Fetching aggregate stat values', () => {
+      let courseId = 'history';
+      let userId = 'George';
+
+      let statOne = {
+        userId: userId,
+        courseId: courseId,
+        total: 1,
+        timeStudied: 10
+      };
+      let statTwo = {
+        userId: userId,
+        courseId: courseId,
+        total: 1,
+        timeStudied: 20
+      };
+
+      let route = `/courses/${courseId}`;
+
+      beforeEach((done) => {
+        let firstStatToSave = new Stat(statOne);
+        let secondStatToSave = new Stat(statTwo);
+        firstStatToSave.save();
+        secondStatToSave.save();
+        done();
+      });
+
+      it('should calculate the total timeStudied for the userId', () => {
+        return chai.request(server)
+        .get('/courses/history')
+        .set('User-Id', 'George')
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('timeStudied', 30);
+        }).catch((err) => {
+          throw err;
+        });
+      });
+    });
 
   });
 });
