@@ -30,7 +30,7 @@ describe('Stats', () => {
       .set('User-Id', 'George')
       .send(rawStat)
       .then((res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body.stat).to.have.property('userId', 'George');
         expect(res.body.stat).to.have.property('courseId', 'history');
         expect(res.body.stat).to.have.property('total', 1);

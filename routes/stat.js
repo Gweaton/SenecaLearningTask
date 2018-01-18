@@ -13,6 +13,7 @@ function createStat(req, res) {
       res.send(err);
     }
     else {
+      res.statusCode = 201;
       res.json({ message: 'Stat persisted', stat });
     }
   });
