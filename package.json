@@ -2,7 +2,7 @@
   "name": "senecalearningtask",
   "version": "1.0.0",
   "description": "Technical Test for Seneca Learning",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --reporter spec --exit"
   },

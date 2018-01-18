@@ -5,7 +5,7 @@ let Stat = require('../models/stat');
 
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let server = require('../server');
+let app = require('../app');
 let expect = chai.expect;
 chai.use(chaiHttp);
 
@@ -25,7 +25,7 @@ describe('Stats', () => {
     let persistenceRoute = `/courses/${courseId}`
 
     it('it should allow a user to save a stat', () => {
-      return chai.request(server)
+      return chai.request(app)
       .post(persistenceRoute)
       .set('User-Id', 'George')
       .send(rawStat)
@@ -42,7 +42,7 @@ describe('Stats', () => {
     });
 
     it('it should not store a stat without required fields', () => {
-      return chai.request(server)
+      return chai.request(app)
       .post(persistenceRoute)
       .send({})
       .then((res) => {
@@ -95,7 +95,7 @@ describe('Stats', () => {
       });
 
       it('should calculate the total timeStudied the userId', () => {
-        return chai.request(server)
+        return chai.request(app)
         .get('/courses/history')
         .set('User-Id', 'George')
         .then((res) => {
@@ -107,7 +107,7 @@ describe('Stats', () => {
       });
 
       it('should calculate the average score for the userId, rounded to one decimal place', () => {
-        return chai.request(server)
+        return chai.request(app)
         .get('/courses/history')
         .set('User-Id', 'George')
         .then((res) => {
@@ -119,7 +119,7 @@ describe('Stats', () => {
       });
 
       it('should display a message when trying to fetch stats for courseIds that have no data', () => {
-        return chai.request(server)
+        return chai.request(app)
         .get('/courses/biology')
         .set('User-Id', 'George')
         .then((res) => {
@@ -131,7 +131,7 @@ describe('Stats', () => {
       });
 
       it('should display a message when trying to fetch stats for userIds that have no data', () => {
-        return chai.request(server)
+        return chai.request(app)
         .get('/courses/history')
         .set('User-Id', 'Unknown User')
         .then((res) => {
