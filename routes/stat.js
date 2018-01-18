@@ -27,10 +27,14 @@ function aggregateStats(req, res) {
     }, (err, stats) => {
         if(err) res.send(err);
 
-        res.json({
-          timeStudied: getTotalForProperty('timeStudied', stats),
-          averageScore: getAverageScore(stats)
-        });
+        if(stats.length === 0) {
+          res.json({ message: 'No stats found for requested courseId or UserId' });
+        } else {
+          res.json({
+            timeStudied: getTotalForProperty('timeStudied', stats),
+            averageScore: getAverageScore(stats)
+          });
+        }
     });
 }
 

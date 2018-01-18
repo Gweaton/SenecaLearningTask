@@ -98,6 +98,30 @@ describe('Stats', () => {
           throw err;
         });
       });
+
+      it('should display a message when trying to fetch stats for courseIds that have no data', () => {
+        return chai.request(server)
+        .get('/courses/biology')
+        .set('User-Id', 'George')
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('message', 'No stats found for requested courseId or UserId');
+        }).catch((err) => {
+          throw err;
+        });
+      });
+
+      it('should display a message when trying to fetch stats for userIds that have no data', () => {
+        return chai.request(server)
+        .get('/courses/history')
+        .set('User-Id', 'Unknown User')
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('message', 'No stats found for requested courseId or UserId');
+        }).catch((err) => {
+          throw err;
+        });
+      });
     });
 
   });
