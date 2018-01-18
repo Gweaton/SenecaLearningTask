@@ -33,12 +33,11 @@ function aggregateStats(req, res) {
         } else {
           res.json({
             timeStudied: getTotalForProperty('timeStudied', stats),
-            averageScore: getAverageScore(stats)
+            averageScore: roundToOneDecimalPlace(getAverageScore(stats))
           });
         }
     });
 }
-
 
 function getTotalForProperty(propertyName, stats) {
   return stats.reduce((total, stat) => total + stat[propertyName], 0);
@@ -46,6 +45,10 @@ function getTotalForProperty(propertyName, stats) {
 
 function getAverageScore(stats) {
   return getTotalForProperty('total', stats) / stats.length;
+}
+
+function roundToOneDecimalPlace(number) {
+  return Math.round(number * 10) / 10;
 }
 
 module.exports = { createStat, aggregateStats };

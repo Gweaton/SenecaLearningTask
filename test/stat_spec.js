@@ -66,7 +66,7 @@ describe('Stats', () => {
       let statOne = {
         userId: userId,
         courseId: courseId,
-        total: 1,
+        total: 2,
         timeStudied: 10
       };
       let statTwo = {
@@ -75,25 +75,44 @@ describe('Stats', () => {
         total: 3,
         timeStudied: 20
       };
+      let statThree = {
+        userId: userId,
+        courseId: courseId,
+        total: 5,
+        timeStudied: 10
+      }
 
       let route = `/courses/${courseId}`;
 
       beforeEach((done) => {
         let firstStatToSave = new Stat(statOne);
         let secondStatToSave = new Stat(statTwo);
+        let thirdStatToSave = new Stat(statThree);
         firstStatToSave.save();
         secondStatToSave.save();
+        thirdStatToSave.save();
         done();
       });
 
-      it('should calculate the total timeStudied and average score for the userId', () => {
+      it('should calculate the total timeStudied the userId', () => {
         return chai.request(server)
         .get('/courses/history')
         .set('User-Id', 'George')
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.have.property('timeStudied', 30);
-          expect(res.body).to.have.property('averageScore', 2);
+          expect(res.body).to.have.property('timeStudied', 40);
+        }).catch((err) => {
+          throw err;
+        });
+      });
+
+      it('should calculate the average score for the userId, rounded to one decimal place', () => {
+        return chai.request(server)
+        .get('/courses/history')
+        .set('User-Id', 'George')
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('averageScore', 3.3);
         }).catch((err) => {
           throw err;
         });
