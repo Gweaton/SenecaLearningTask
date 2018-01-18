@@ -3,7 +3,6 @@ process.env.NODE_ENV = 'test';
 let app = require('../app');
 let Stat = require('../lib/models/stat');
 
-let mongoose = require('mongoose');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let expect = chai.expect;
@@ -23,7 +22,7 @@ describe('Stats', () => {
       timeStudied: 10
     };
     let courseId = 'history';
-    let persistenceRoute = `/courses/${courseId}`
+    let persistenceRoute = `/courses/${courseId}`;
 
     it('it should allow a user to save a stat', () => {
       return chai.request(app)
@@ -61,7 +60,7 @@ describe('Stats', () => {
     });
 
     describe('Fetching aggregate stat values', () => {
-      let courseId = 'history';
+      let courseId = 'maths';
       let userId = 'George';
 
       let statOne = {
@@ -81,9 +80,9 @@ describe('Stats', () => {
         courseId: courseId,
         total: 5,
         timeStudied: 10
-      }
+      };
 
-      let route = `/courses/${courseId}`;
+      let mathsRoute = '/courses/maths';
 
       beforeEach((done) => {
         let firstStatToSave = new Stat(statOne);
@@ -97,7 +96,7 @@ describe('Stats', () => {
 
       it('should calculate the total timeStudied the userId', () => {
         return chai.request(app)
-        .get('/courses/history')
+        .get(mathsRoute)
         .set('User-Id', 'George')
         .then((res) => {
           expect(res).to.have.status(200);
@@ -109,7 +108,7 @@ describe('Stats', () => {
 
       it('should calculate the average score for the userId, rounded to one decimal place', () => {
         return chai.request(app)
-        .get('/courses/history')
+        .get(mathsRoute)
         .set('User-Id', 'George')
         .then((res) => {
           expect(res).to.have.status(200);
@@ -133,7 +132,7 @@ describe('Stats', () => {
 
       it('should display a message when trying to fetch stats for userIds that have no data', () => {
         return chai.request(app)
-        .get('/courses/history')
+        .get(mathsRoute)
         .set('User-Id', 'Unknown User')
         .then((res) => {
           expect(res).to.have.status(200);
