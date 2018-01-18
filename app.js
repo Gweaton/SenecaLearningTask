@@ -1,6 +1,7 @@
 require('dotenv').load();
 
 let express = require('express');
+let cors = require('cors');
 let app = express();
 
 let mongoose = require('mongoose');
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
+app.use(cors());
 
 app.route('/courses/:courseId')
     .get(stat.aggregateStats)
