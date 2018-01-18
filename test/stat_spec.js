@@ -1,12 +1,13 @@
 process.env.NODE_ENV = 'test';
 
-let mongoose = require('mongoose');
-let Stat = require('../models/stat');
+let app = require('../app');
+let Stat = require('../lib/models/stat');
 
+let mongoose = require('mongoose');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let app = require('../app');
 let expect = chai.expect;
+
 chai.use(chaiHttp);
 
 describe('Stats', () => {

@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
-let Stat = require('../models/stat');
+let Stat = require('../lib/models/stat');
+let calculator = require('../lib/helpers/calculator');
 
 function createStat(req, res) {
   let courseId = req.params.courseId;
@@ -32,23 +33,11 @@ function aggregateStats(req, res) {
           res.json({ message: 'No stats found for requested courseId or UserId' });
         } else {
           res.json({
-            timeStudied: getTotalForProperty('timeStudied', stats),
-            averageScore: roundToOneDecimalPlace(getAverageScore(stats))
+            timeStudied: calculator.getTotalForProperty('timeStudied', stats),
+            averageScore: calculator.roundToOneDecimalPlace(calculator.getAverageScore(stats))
           });
         }
     });
-}
-
-function getTotalForProperty(propertyName, stats) {
-  return stats.reduce((total, stat) => total + stat[propertyName], 0);
-}
-
-function getAverageScore(stats) {
-  return getTotalForProperty('total', stats) / stats.length;
-}
-
-function roundToOneDecimalPlace(number) {
-  return Math.round(number * 10) / 10;
 }
 
 module.exports = { createStat, aggregateStats };
