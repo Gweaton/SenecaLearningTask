@@ -4,7 +4,8 @@
   "description": "Technical Test for Seneca Learning",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --reporter spec --exit"
+    "test": "NODE_ENV=test mocha --reporter spec --exit",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
