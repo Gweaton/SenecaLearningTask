@@ -12,12 +12,6 @@ Required routes to implement can be found in `swagger_yml.yaml`.
 - This is the same for the courseId - a user can submit a score for any courseId, but in a real app, this would be an existing courseId. I would like to create a Course model with each courseId and update it with the user scores, but as the Swagger file specifies a POST request, rather than a PUT, I have chosen to simply create a new Stat object each time, with the courseId saved on it. All stats with the requested courseId are aggregated to calculate totals for the requesting user.
 - When calculating the average score for a particular user on a particular course, I have calculated it to the nearest 1 decimal place, as it seemed like the most user-friendly way to display a score.
 
-## Running tests
-
-To run the tests, simply run `npm test` from the root of the project.
-
-Note: every now and then there is some flakiness with these tests due to the async nature of fetching from the database. Running them multiple times gives you a correct result, but I would like to make them more rock-solid so they can be more trusted.
-
 ## Instructions for use
 
 - Clone this repo to your local machine: `git clone https://github.com/Gweaton/SenecaLearningTask.git`
@@ -26,8 +20,17 @@ Note: every now and then there is some flakiness with these tests due to the asy
     DEV_DATABASE_URI=mongodb://path_to_dev_database
     TEST_DATABASE_URI=mongodb://path_to_test_database
     ```
+
+- Run `npm install` to install the required dependencies for the app.
 - To start the server, run `npm start` from the root directory of the project.
-- You will then be able to interact with the app in a number of ways:
+- You will then be able to interact with the app in a number of ways (see below).
+
+### Running tests
+
+To run the tests, simply run `npm test` from the root of the project.
+
+Note: every now and then there is some flakiness with these tests due to the async nature of fetching from the database. Running them multiple times gives you a correct result, but I would like to make them more rock-solid so they can be more trusted.
+
 
 ### Running from the command line
 
